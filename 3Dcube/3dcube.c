@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/12/18 12:18:51 by wbarendr       #+#    #+#                */
-/*   Updated: 2020/01/14 12:06:02 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/01/15 22:01:00 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char 	*place_string(char *str, int *i, int columns)
 	return (str1);
 }
 
-void	print_array(char **arr, int column, int rows)
+int 	print_array(char **arr, int column, int rows)
 {
 	int i;
 	int j;
@@ -61,65 +61,69 @@ void	print_array(char **arr, int column, int rows)
 		j = 0;
 		i++;
 	}
-	check_valid_arr(arr, rows);
+	return (check_valid_arr(arr, rows));
 }
 
-char	*make_array(int rows, int columns, char *str, int i)
+char	*make_array(t_map *f, int i)
 {
-	char **arr;
 	int r;
+	int savei;
 
+	savei = i;
 	r = 0;
-	arr = malloc(sizeof(char *) * (rows + 1));
-	if (arr == NULL)
+	f->map = malloc(sizeof(char *) * (f->rows + 1));
+	if (f->map == NULL)
 		return ("malloc failed");
-	while (r < rows)
+	while (r < f->rows)
 	{
-		arr[r] = place_string(str, &i, columns);
-		if (arr[r] == NULL)
+		f->map[r] = place_string(f->str, &i, f->columns);
+		if (f->map[r] == NULL)
 			return ("malloc failed");  // free function
 		r++;
 	}
-	arr[rows] = 0;
-	print_array(arr, columns, rows);
-	return ("\n\nDONE\n");
+	f->map[f->rows] = 0;
+	r = print_array(f->map, f->columns, f->rows);
+	if (r == 0)
+		return ("\n\nDONE\n");
+	r = get_other_values(f, savei);
+	if (r == -1)
+		return ("something went TERRIBLY wrong!!");
+	//map_maker(f);
+	return ("did it work?\n");
 }
 
-char	*check_valid(char *str)
+char	*check_valid(t_map *f)
 {
 	int i;
-	int columns;
-	int rows;
 
-	columns = 0;
-	i = ft_strlen(str) - 1;
-	while (str[i] != '\n' && i != 0)
+	f->columns = 0;
+	i = ft_strlen(f->str) - 1;
+	while (f->str[i] != '\n' && i != 0)
 	{
-		if (!(str[i] == '1' || str[i] == ' '))
+		if (!(f->str[i] == '1' || f->str[i] == ' '))
 			return ("nope");
 		i--;
-		columns++;
+		f->columns++;
 	}
-	while (check_char(str[i]) == 1 && (!(str[i] == '\n' && str[i + 1] == '\n')))
+	while (check_char(f->str[i]) == 1 && (!(f->str[i] == '\n' && f->str[i + 1] == '\n')))
 		i--;
-	while (str[i] != '\n' && str[i] != 0)
+	while (f->str[i] != '\n' && f->str[i] != 0)
 		i++;
-	if (str[i] == '\n'&& str[i + 1] == '\n')
+	if (f->str[i] == '\n' && f->str[i + 1] == '\n')
 		i++;
 	i++;
-	rows = (ft_strlen(str) - i) / columns;
+	f->rows = (ft_strlen(f->str) - i) / f->columns;
 	//free(str);
-	return (make_array(rows, columns, str, i));
+	return (make_array(f, i));
 }
 
-char	*read_file(int fd)
+char	*read_file(t_map *f, int fd)
 {
-	char 	*temp;
-	char 	*templ; 
+	char 	*temp; 
 	int 	amount;
 
-	templ = ft_calloc(1, 1);
-	if ( templ == NULL)
+	f->str = ft_calloc(1, 1);
+	if (f->str == NULL)
 		return ("malloc fail 1");
 	temp = malloc(10 + 1);
 	if ( temp == NULL)
@@ -131,10 +135,10 @@ char	*read_file(int fd)
 		if (amount == -1)
 			return (NULL);  // ga alle returns na!
 		temp[amount] = 0; 
-		templ = ft_strjoin(templ, temp);
-		if (templ == NULL)
+		f->str = ft_strjoin(f->str, temp);
+		if (f->str == NULL)
 			return ("malloc");
 	}
 	free(temp);
-	return (check_valid(templ));
+	return (check_valid(f));
 }
