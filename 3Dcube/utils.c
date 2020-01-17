@@ -6,68 +6,96 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/12/20 19:46:18 by wbarendr       #+#    #+#                */
-/*   Updated: 2019/12/21 15:23:15 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/01/17 16:56:50 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dcube.h"
 
-int     ft_strlen(char *str)
+int		ft_strlen(char *str)
 {
-    int i;
+	int i;
 
-    i = 0;
-    while (str[i])
-        i++;
-    return (i);
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }
 
-char    *ft_calloc(int size, int amount)
+char	*ft_calloc(int size, int amount)
 {
-    char    *str;
-    int     i;
+	char	*str;
+	int		i;
 
-    i = 0;
-    str = malloc(size * amount);
-    if (str == NULL)
-        return (NULL);
-    while (i < (size * amount))
-    {
-        str[i] = 0;
-        i++;
-    }
-    return (str);
+	i = 0;
+	str = malloc(size * amount);
+	if (str == NULL)
+		return (NULL);
+	while (i < (size * amount))
+	{
+		str[i] = 0;
+		i++;
+	}
+	return (str);
 }
 
-char    *ft_strjoin(char *str1, char *str2)
+char	*ft_strjoin(t_map *f, char **str2)
 {
-    int     i;
-    int     j;
-    char    *str;
+	int		i;
+	int		j;
+	char	*str;
 
-    i = 0;
-    j = 0;
-    str = malloc(ft_strlen(str1) + ft_strlen(str2) + 1);
-    if (str == NULL)
-        return (NULL);
-    while (str1[i])
-    {
-        str[i] = str1[i];
-        i++; 
-    }
-    while (str2[j])
-    {
-        str[i + j] = str2[j];
-        j++;
-    }
-    str[i + j] = 0;
-    return (str);
+	i = 0;
+	j = 0;
+	str = malloc(ft_strlen(f->str) + ft_strlen(*str2) + 1);
+	if (str == NULL)
+		return (NULL);
+	while (f->str[i])
+	{
+		str[i] = f->str[i];
+		i++;
+	}
+	while ((*str2)[j])
+	{
+		str[i + j] = (*str2)[j];
+		j++;
+	}
+	str[i + j] = 0;
+	free(f->str);
+	return (str);
 }
 
-void     check_match(char c1, char c2, int *invalid, int *c)
+int		compare(char *str, char *str2)
 {
-    if (c1 != c2)
-        (*invalid) = 1;
-    (*c)++;
-    return ;
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != str2[i])
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int		ft_atoi(const char *str)
+{
+	int					i;
+	unsigned long int	num;
+	int					min;
+
+	min = 1;
+	num = 0;
+	i = 0;
+	while (str[i] == 32 || str[i] == 9 || (str[i] >= 11 && str[i] <= 13))
+		i++;
+	if (!(str[i] >= 48 && str[i] <= 57))
+		return (-1);
+	while (str[i] >= 48 && str[i] <= 57)
+	{
+		num = num * 10 + (str[i] - 48);
+		i++;
+	}
+	return (num * min);
 }

@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/14 17:45:44 by wbarendr       #+#    #+#                */
-/*   Updated: 2020/01/14 22:23:06 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/01/17 10:52:23 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,11 @@ int		press(int keycode, t_struct *f)
 		f->color = f->color - 16;
 	else if (f->color <= 0x00F0F0F0 && f->end == 1)
 		f->color = f->color - 16 * 16 * 16;
-	if (f->color >= 0x0000F0F0 && f->end == 0)
+	if (f->color >= 0x0F0F0F0 && f->end == 0)
 		f->color = f->color + 16 * 16 * 16 * 16 * 16;
-	else if (f->color >= 0x000000F0 && f->end == 0)
+	else if (f->color >= 0x000F0F0 && f->end == 0)
 		f->color = f->color + 16 * 16 * 16;
-	else if (f->color >= 0x00000000 && f->end == 0)
+	else if (f->color >= 0x000000F0 && f->end == 0)
 		f->color = f->color + 16;
 	printf("color: %lx \n", f->color);
 	render_next_frame(f);
@@ -123,6 +123,8 @@ int     main(void)
 	f.y = 225;
 	f.color = 0x00000000;
 	f.end = 0;
+	
+	
 	
 	f.mlx = mlx_init();
 	f.img = mlx_new_image(f.mlx, 800, 500);
