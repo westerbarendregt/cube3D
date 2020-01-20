@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/16 10:18:39 by wbarendr       #+#    #+#                */
-/*   Updated: 2020/01/17 17:17:10 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/01/20 15:58:09 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ void    make_map(t_struct *w, t_map *f)
 
     r = 0;
     c = 0;
-    f->columns = f->rx / ((f->columns + 1) / 2);
+    f->columns = f->rx / f->columns;
     f->rows = f->ry / f->rows;
     while (f->map[r] != 0)
     {
         while (f->map[r][c] != 0)
         {
             if (f->map[r][c] == '1')
-                make_square(r, (c / 2), w, f);
+                make_square(r, c, w, f);
             c++;
         }
         c = 0;
@@ -90,8 +90,14 @@ void    make_center(t_struct *w, t_map *f)
         x = 0;
         y++;
     }
-    w->centy = y * f->rows;
-    w->centx = (x / 2) * f->columns; 
+	printf("rows: %d\n", f->rows);
+	printf("columns: %d\n", f->columns);
+	printf("x: %d\n", x);
+	printf("y: %d\n", y);
+	w->x = x;
+	w->y = y;	
+    w->centy = y * f->rows + f->rows / 2;
+    w->centx = x * f->columns + f->columns / 2; 
 }
 
 void    center_point(t_struct *w)
@@ -127,13 +133,13 @@ int		press(int keycode, t_struct *w)
 { 
     //printf("centx: %d\ncenty: %d\n", w->centx, w->centy);
     //printf("1: %d\n2: %d\n", (w->centx / w->m->columns * 2), w->centy / w->m->rows);
-	if (keycode == 124 && w->m->map[w->centy / w->m->rows][(w->centx + 19)/ w->m->columns * 2] != '1')
+	if (keycode == 124 && w->m->map[w->centy / w->m->rows][(w->centx + 19)/ w->m->columns] != '1')
 		w->centx = w->centx + 16;
-	if (keycode == 123 && w->m->map[w->centy / w->m->rows][(w->centx - 19)/ w->m->columns * 2] != '1')
+	if (keycode == 123 && w->m->map[w->centy / w->m->rows][(w->centx - 19)/ w->m->columns] != '1')
 		w->centx = w->centx - 16;
-	if (keycode == 126 && w->m->map[(w->centy - 19) / w->m->rows][(w->centx)/ w->m->columns * 2] != '1')
+	if (keycode == 126 && w->m->map[(w->centy - 19) / w->m->rows][(w->centx)/ w->m->columns] != '1')
 		w->centy = w->centy - 16;
-	if (keycode == 125 && w->m->map[(w->centy + 19) / w->m->rows][(w->centx)/ w->m->columns * 2] != '1')
+	if (keycode == 125 && w->m->map[(w->centy + 19) / w->m->rows][(w->centx)/ w->m->columns] != '1')
 		w->centy = w->centy + 16;
     if (w->color >= 0x00FFFFFF)
 		w->end = 1;
@@ -173,6 +179,7 @@ void	put_map_to_window(t_map *f)
 	make_map(&w, f);
     mlx_put_image_to_window(w.mlx, w.win, w.img, 0, 0);
     make_center(&w, f);
+	make_flashlight(&w, f);
 	mlx_hook(w.win, 2, 1L<<0, press, &w);
 	//mlx_loop_hook(f.mlx, render_next_frame, &w);
 	mlx_loop(w.mlx);

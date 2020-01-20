@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/12/18 12:18:51 by wbarendr       #+#    #+#                */
-/*   Updated: 2020/01/17 16:50:08 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/01/20 12:43:55 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ char	*place_string(char *str, int *i, int columns)
 	{
 		str1[j] = str[*i];
 		j++;
+		(*i)++;
+		if (str[*i] != ' ')
+			break ;
 		(*i)++;
 	}
 	str1[j] = 0;
@@ -45,6 +48,7 @@ int		print_array(t_map *f)
 		{
 			write(1, &f->map[i][j], 1);
 			j++;
+			write(1, " ", 1);
 		}
 		write(1, "\n", 1);
 		j = 0;
@@ -60,6 +64,7 @@ char	*make_array(t_map *f, int i)
 
 	savei = i;
 	r = 0;
+	f->columns = f->columns / 2 + 1;
 	f->map = malloc(sizeof(char *) * (f->rows + 1));
 	if (f->map == NULL)
 		return (free_willy(f, "malloc failed 4"));

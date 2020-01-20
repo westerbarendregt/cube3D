@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/17 11:05:14 by wbarendr       #+#    #+#                */
-/*   Updated: 2020/01/17 18:05:10 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/01/20 12:37:04 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	init_struct_map(t_map *f)
 
 void	make_colours(t_map *f)
 {
-	f->floor = f->floor + f->fblue % 16;
-	f->floor = f->floor + f->fblue / 16 * 16;
+	f->floor = f->floor + f->fblue % 16 * pow(16, 0);
+	f->floor = f->floor + f->fblue / 16 * pow(16, 1);
 	f->floor = f->floor + f->fgreen % 16 * pow(16, 2);
 	f->floor = f->floor + f->fgreen / 16 * pow(16, 3);
 	f->floor = f->floor + f->fred % 16 * pow(16, 4);

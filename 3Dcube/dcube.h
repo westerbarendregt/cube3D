@@ -6,12 +6,14 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/12/20 19:53:48 by wbarendr       #+#    #+#                */
-/*   Updated: 2020/01/17 17:23:53 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/01/20 14:24:54 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DCUBE_H
 # define DCUBE_H
+
+# define radiant 0.0174532925
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -90,5 +92,6 @@ char				*free_fred(t_map *f, char **str2, char *text);
 char				*free_map(t_map *f, int r, char *text);
 
 void				put_map_to_window(t_map *f);
+void        		make_flashlight(t_struct *w, t_map *f);
 
 #endif

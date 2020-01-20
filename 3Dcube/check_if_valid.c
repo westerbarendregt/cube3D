@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/12/21 16:57:32 by wbarendr       #+#    #+#                */
-/*   Updated: 2020/01/17 18:05:03 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/01/20 12:51:58 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,8 @@ void	check_match(char c1, char c2, int *invalid, int *c)
 	return ;
 }
 
-void	check_direction(char *str, int *c, int *invalid, int *invalid2)
+void	check_direction(char *str, int *c, int *invalid2)
 {
-	if (str[*c] != ' ')
-		(*invalid) = 1;
-	(*c)++;
 	if (str[*c] == 'S' || str[*c] == 'N' || str[*c] == 'W' || str[*c] == 'E')
 		(*invalid2)++;
 	(*c)++;
@@ -44,7 +41,7 @@ void	check_str_for_other(t_map *f, int *invalid, int *invalid2)
 		if (f->map[r][0] != '1' || f->map[r][len] != '1')
 			(*invalid) = 1;
 		while (c < len && (*invalid2) < 2 && (*invalid) == 0)
-			check_direction(f->map[r], &c, invalid, invalid2);
+			check_direction(f->map[r], &c, invalid2);
 		c = 1;
 		r++;
 		if (len + 1 != f->columns)
@@ -63,9 +60,6 @@ void	check_str_for_one(char *arr, int *invalid, int columns)
 	check_match(arr[c], '1', invalid, &c);
 	while (arr[c] && *invalid == 0)
 	{
-		check_match(arr[c], ' ', invalid, &c);
-		if (arr[c] == 0 || *invalid == 1)
-			break ;
 		check_match(arr[c], '1', invalid, &c);
 	}
 }
