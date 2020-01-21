@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/16 10:18:39 by wbarendr       #+#    #+#                */
-/*   Updated: 2020/01/20 15:58:09 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/01/21 22:41:19 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,29 @@ void				my_mlx_pixel_put1(t_struct *data, int x, int y, int *j)
 	char *dst;
 
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-    *(unsigned int*)dst = data->color;
+    *(unsigned int*)dst = data->m->ceiling;
 	(*j)++;
 }
 
-void				my_mlx_pixel_put(t_struct *data, int x, int y, int color)
+void				my_mlx_pixel_put_map(t_struct *w, int x, int y, int color)
 {
 	char *dst;
 
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	dst = w->addr + (y * w->line_length + x * (w->bits_per_pixel / 8));
     *(unsigned int*)dst = color;
+}
+
+int					my_mlx_pixel_put(t_struct *w, int x, int y, int color)
+{
+	char *dst;
+
+	if (x <= 0 || x >= 1020 || y <= 0 || y >= 560)
+		return (0);
+	if (w->m->map[y / w->m->rows][x / w->m->columns] == '1')	
+		return (1);
+	dst = w->addr + (y * w->line_length + x * (w->bits_per_pixel / 8));
+    *(unsigned int*)dst = color;
+	return (0);
 }
 
 void    make_square(int r, int c, t_struct *w, t_map *f)
@@ -40,7 +53,7 @@ void    make_square(int r, int c, t_struct *w, t_map *f)
     {
         while (y < f->rows)
         {
-            my_mlx_pixel_put(w, x + (f->columns * c), y + (f->rows * r), f->floor);
+            my_mlx_pixel_put_map(w, x + (f->columns * c), y + (f->rows * r), f->floor);
             y++;
         }
         y = 0;
@@ -55,8 +68,6 @@ void    make_map(t_struct *w, t_map *f)
 
     r = 0;
     c = 0;
-    f->columns = f->rx / f->columns;
-    f->rows = f->ry / f->rows;
     while (f->map[r] != 0)
     {
         while (f->map[r][c] != 0)
@@ -97,7 +108,10 @@ void    make_center(t_struct *w, t_map *f)
 	w->x = x;
 	w->y = y;	
     w->centy = y * f->rows + f->rows / 2;
-    w->centx = x * f->columns + f->columns / 2; 
+    w->centx = x * f->columns + f->columns / 2;
+	printf("y: %d\n", w->centy);
+	printf("x: %d\n", w->centx);
+
 }
 
 void    center_point(t_struct *w)
@@ -111,15 +125,15 @@ void    center_point(t_struct *w)
 	j = 0;
 	while (co != 4)
 	{
-		while (i < 8)
+		while (i < 5)
 		{
-			while (j != (int)sqrt(49 - (i * i)) && co == 0)
+			while (j != (int)sqrt(16 - (i * i)) && co == 0)
 				my_mlx_pixel_put1(w, w->centx + j, (w->centy - i), &j);
-			while (j != (int)sqrt(49 - (i * i)) && co == 1)
+			while (j != (int)sqrt(16 - (i * i)) && co == 1)
 				my_mlx_pixel_put1(w, w->centx + j, (w->centy + i), &j);
-			while (j != (int)sqrt(49 - (i * i)) && co == 2)
+			while (j != (int)sqrt(16 - (i * i)) && co == 2)
 				my_mlx_pixel_put1(w, w->centx - j, (w->centy - i), &j);
-			while (j != (int)sqrt(49 - (i * i)) && co == 3)
+			while (j != (int)sqrt(16 - (i * i)) && co == 3)
 				my_mlx_pixel_put1(w, w->centx - j, (w->centy + i), &j);
 			j = 0;
 			i++;
@@ -127,6 +141,8 @@ void    center_point(t_struct *w)
 		i = 0;
 		co++;
 	}
+	w->del_x = w->centx;
+	w->del_y = w->centy;
 }
 
 int		press(int keycode, t_struct *w)
@@ -166,21 +182,31 @@ void	put_map_to_window(t_map *f)
 {
     t_struct    w;
 	
-	w.x = 400;
-	w.y = 225;
-	w.color = 0x000F0F0F;
+	w.color = 0xB9A37333;
 	w.end = 0;
 	w.m = f;
+	w.radius = 256;
+	w.angle = 50;
+	w.step = 5;
+	w.black = 0x00000000;
+ 	f->columns = f->rx / f->columns;
+    f->rows = f->ry / f->rows;
+    make_center(&w, f);
+	name(&w, f);
 
+	printf("ry: %d\n", f->ry);
+	printf("rx: %d\n", f->rx);
 	w.mlx = mlx_init();
 	w.img = mlx_new_image(w.mlx, f->rx, f->ry);
 	w.addr = mlx_get_data_addr(w.img, &w.bits_per_pixel, &w.line_length, &w.endian);
 	w.win = mlx_new_window(w.mlx, f->rx, f->ry, "Hello Wes");
 	make_map(&w, f);
     mlx_put_image_to_window(w.mlx, w.win, w.img, 0, 0);
-    make_center(&w, f);
-	make_flashlight(&w, f);
-	mlx_hook(w.win, 2, 1L<<0, press, &w);
+	center_point(&w);
+	mlx_hook(w.win, 2, 1L<<0, turn, &w);
+	//make_flashlight(&w, f);
+	//mlx_hook(w.win, 2, 1L<<0, press, &w);
 	//mlx_loop_hook(f.mlx, render_next_frame, &w);
 	mlx_loop(w.mlx);
+
 }
