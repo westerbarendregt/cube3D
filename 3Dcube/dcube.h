@@ -111,7 +111,7 @@ int					my_mlx_pixel_put(t_struct *data, int x, int y, int color);
 void				del_light(t_struct *w, int mid, unsigned long color);
 
 /* three D */
-void				make_three_d(int x, int distance, t_struct *w);
-void				del_make_three_d(int x, int distance, t_struct *w);
+void				del_make_three_d(int x, int distance, t_struct *w, int angle);
+void				make_three_d(int x, int distance, t_struct *w, int angle);
 
 #endif

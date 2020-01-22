@@ -26,7 +26,7 @@ void		del_south_east(t_struct *w, int mid, unsigned long color)
 		{
 			if (my_mlx_pixel_put(w, w->del_x + sin((mid + k) * radiant) * i, w->del_y + cos((mid + k) * radiant) * i, color))
 			{
-				del_make_three_d(w->m->rx - (k * w->m->rx / w->angle), i, w);
+				del_make_three_d(w->m->rx - (k * w->m->rx / w->angle), i, w, k);
 				break ;
 			}
 			i++;
@@ -50,7 +50,7 @@ void		del_north_east(t_struct *w, int mid, unsigned long color)
 		{
 			if (my_mlx_pixel_put(w, w->del_x + cos((mid + k) * radiant) * i, w->del_y - sin((mid + k) * radiant) * i, color))
 			{
-				del_make_three_d(w->m->rx - (k * w->m->rx / w->angle), i, w);
+				del_make_three_d(w->m->rx - (k * w->m->rx / w->angle), i, w, k);
 				break ;
 			}	
 			i++;
@@ -74,7 +74,7 @@ void		del_north_west(t_struct *w, int mid, unsigned long color)
 		{
 			if (my_mlx_pixel_put(w, w->del_x - sin((mid + k) * radiant) * i, w->del_y - cos((mid + k) * radiant) * i, color))
 			{
-				del_make_three_d(w->m->rx - (k * w->m->rx / w->angle), i, w);
+				del_make_three_d(w->m->rx - (k * w->m->rx / w->angle), i, w, k);
 				break ;
 			}
 			i++;
@@ -98,7 +98,7 @@ void		del_south_west(t_struct *w, int mid, unsigned long color)
 		{
 			if (my_mlx_pixel_put(w, w->del_x - cos((mid + k) * radiant) * i, w->del_y + sin((mid + k) * radiant) * i, color))
 			{
-				del_make_three_d(w->m->rx - (k * w->m->rx / w->angle), i, w);
+				del_make_three_d(w->m->rx - (k * w->m->rx / w->angle), i, w, k);
 				break ;
 			}
 			i++;

@@ -43,20 +43,30 @@ int			fix_fish_eye(int x, int distance, t_struct *w)
 	//angle is from 0 to 60 and not from -30 t0 30
 	if (x < 0)
 		x = x * -1;
-	//printf("angle: %d\n", x);
+	printf("angle: %d\n", x);
 	return (cos(x * radiant) * distance);
 }
 
-void		make_three_d(int x, int distance, t_struct *w)
+void		make_three_d(int x, int distance, t_struct *w, int angle)
 {
 	int y;
 	int equator;
 
 	y = 0;
 	equator = w->m->ry / 2;
+	printf("%d\n", w->mid);
+	angle = w->mid % 90 - angle; // denk aan de w->mid omdat hij moet berekenen in welke hoek hij afneemt!
+	// ga dit trouwens ook ff op papier na! 
+	printf("ll-angle: %d -- ", angle);
+	//angle = angle - 30;
+	if (angle < 0)
+		angle = angle * -1;
+	printf("%d\n", angle);
 	printf("distance: %d -- ", distance);
-	distance = fix_fish_eye(x, distance, w);
-	printf("%d\n", distance);
+	distance = cos(angle * radiant) * distance;
+	printf("new: %d\n", distance);
+	printf("x: %d  times: %d  ", x, equator - distance);
+
 	while (y < equator - distance)
 	{
 		my_mlx_pixel_put4(w, x, equator + y, 0x00B22B33);
@@ -65,15 +75,18 @@ void		make_three_d(int x, int distance, t_struct *w)
 	}
 }
 
-void		del_make_three_d(int x, int distance, t_struct *w)
+void		del_make_three_d(int x, int distance, t_struct *w, int angle)
 {
 	int y;
 	int equator;
 
 	y = 0;
 	equator = w->m->ry / 2;
-	distance = fix_fish_eye(x, distance, w);
-	while (y < equator - distance)
+	angle = angle - 30;
+	if (angle < 0)
+		angle = angle * -1;
+	distance = cos(angle * radiant) * distance;
+	while (y < equator - distance / 1.5)
 	{
 		my_mlx_pixel_put4(w, x, equator + y, w->black);
 		my_mlx_pixel_put4(w, x, equator - y, w->black);

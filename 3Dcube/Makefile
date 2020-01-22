@@ -19,7 +19,7 @@ CFILES  = $(SRCS:%=%.c)
 all:
 	gcc -Wall -Wextra -Werror -I minilibx -L minilibx -lmlx -framework \
 	OpenGL -framework AppKit $(CFILES)
-
+	./a.out file.cub
 clean:
 	rm -f a.out
 
