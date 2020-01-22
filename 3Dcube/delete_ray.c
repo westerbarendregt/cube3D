@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/21 21:18:57 by wbarendr       #+#    #+#                */
-/*   Updated: 2020/01/21 21:39:22 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/01/22 16:22:15 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,15 @@ void		del_south_east(t_struct *w, int mid, unsigned long color)
 	{
 		while (i <= w->radius)
 		{
-			my_mlx_pixel_put(w, w->del_x + sin((mid + k) * radiant) * i, w->del_y + cos((mid + k) * radiant) * i, color);	
+			if (my_mlx_pixel_put(w, w->del_x + sin((mid + k) * radiant) * i, w->del_y + cos((mid + k) * radiant) * i, color))
+			{
+				del_make_three_d(w->m->rx - (k * w->m->rx / w->angle), i, w);
+				break ;
+			}
 			i++;
 		}
 		i = 0;
-		k = k + 0.25;
+		k = k + w->angle / w->m->rx;
 	}
 }
 
@@ -44,11 +48,15 @@ void		del_north_east(t_struct *w, int mid, unsigned long color)
 	{
 		while (i <= w->radius)
 		{
-			my_mlx_pixel_put(w, w->del_x + cos((mid + k) * radiant) * i, w->del_y - sin((mid + k) * radiant) * i, color);	
+			if (my_mlx_pixel_put(w, w->del_x + cos((mid + k) * radiant) * i, w->del_y - sin((mid + k) * radiant) * i, color))
+			{
+				del_make_three_d(w->m->rx - (k * w->m->rx / w->angle), i, w);
+				break ;
+			}	
 			i++;
 		}
 		i = 0;
-		k = k + 0.25;
+		k = k + w->angle / w->m->rx;
 	}
 }
 
@@ -64,11 +72,15 @@ void		del_north_west(t_struct *w, int mid, unsigned long color)
 	{
 		while (i <= w->radius)
 		{
-			my_mlx_pixel_put(w, w->del_x - sin((mid + k) * radiant) * i, w->del_y - cos((mid + k) * radiant) * i, color);	
+			if (my_mlx_pixel_put(w, w->del_x - sin((mid + k) * radiant) * i, w->del_y - cos((mid + k) * radiant) * i, color))
+			{
+				del_make_three_d(w->m->rx - (k * w->m->rx / w->angle), i, w);
+				break ;
+			}
 			i++;
 		}
 		i = 0;
-		k = k + 0.25;
+		k = k + w->angle / w->m->rx;
 	}
 }
 
@@ -84,11 +96,15 @@ void		del_south_west(t_struct *w, int mid, unsigned long color)
 	{
 		while (i <= w->radius)
 		{
-			my_mlx_pixel_put(w, w->del_x - cos((mid + k) * radiant) * i, w->del_y + sin((mid + k) * radiant) * i, color);	
+			if (my_mlx_pixel_put(w, w->del_x - cos((mid + k) * radiant) * i, w->del_y + sin((mid + k) * radiant) * i, color))
+			{
+				del_make_three_d(w->m->rx - (k * w->m->rx / w->angle), i, w);
+				break ;
+			}
 			i++;
 		}
 		i = 0;
-		k = k + 0.25;
+		k = k + w->angle / w->m->rx;
 	}
 }
 

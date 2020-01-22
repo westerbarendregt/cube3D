@@ -6,13 +6,13 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/21 19:28:35 by wbarendr       #+#    #+#                */
-/*   Updated: 2020/01/21 22:30:43 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/01/22 16:21:11 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dcube.h"
 
-void				my_mlx_pixel_put2(t_struct *data, int x, int y, int *j)
+void		my_mlx_pixel_put2(t_struct *data, int x, int y, int *j)
 {
 	char *dst;
 
@@ -35,9 +35,9 @@ void		name(t_struct *w, t_map *f)
 
 void		south_east(t_struct *w, int mid, unsigned long color)
 {
-	int i;
-	float k;
-	unsigned long colorsave;
+	int				i;
+	float			k;
+	unsigned long	colorsave;
 
 	colorsave = color;
 	k = 0;
@@ -48,22 +48,25 @@ void		south_east(t_struct *w, int mid, unsigned long color)
 		while (i <= w->radius)
 		{
 			if (my_mlx_pixel_put(w, w->centx + sin((mid + k) * radiant) * i, w->centy + cos((mid + k) * radiant) * i, color))
-				break ;	
+			{
+				make_three_d(w->m->rx - (k * w->m->rx / w->angle), i, w);
+				break ;
+			}
 			i++;
 			if (i % 4 == 0)
 				color = color + 1 * pow(16, 6);
 		}
 		color = colorsave;
 		i = 0;
-		k = k + 0.25;
+		k = k + w->angle / w->m->rx;
 	}
 }
 
 void		north_east(t_struct *w, int mid, unsigned long color)
 {
-	int i;
-	float k;
-	unsigned long colorsave;
+	int				i;
+	float			k;
+	unsigned long	colorsave;
 		
 	colorsave = color;
 	k = 0;
@@ -74,22 +77,25 @@ void		north_east(t_struct *w, int mid, unsigned long color)
 		while (i <= w->radius)
 		{
 			if (my_mlx_pixel_put(w, w->centx + cos((mid + k) * radiant) * i, w->centy - sin((mid + k) * radiant) * i, color))	
+			{
+				make_three_d(w->m->rx - (k * w->m->rx / w->angle), i, w);
 				break ;
+			}
 			i++;
 			if (i % 4 == 0)
 				color = color + 1 * pow(16, 6);
 		}
 		color = colorsave;
 		i = 0;
-		k = k + 0.25;
+		k = k + w->angle / w->m->rx;
 	}
 }
 
 void		north_west(t_struct *w, int mid, unsigned long color)
 {
-	int i;
-	float k;
-	unsigned long colorsave;
+	int				i;
+	float			k;
+	unsigned long	colorsave;
 
 	colorsave = color;
 	k = 0;
@@ -100,22 +106,25 @@ void		north_west(t_struct *w, int mid, unsigned long color)
 		while (i <= w->radius)
 		{
 			if (my_mlx_pixel_put(w, w->centx - sin((mid + k) * radiant) * i, w->centy - cos((mid + k) * radiant) * i, color))
+			{
+				make_three_d((w->m->rx - k * w->m->rx / w->angle), i, w);
 				break ;
+			}
 			i++;
 			if (i % 4 == 0)
 				color = color + 1 * pow(16, 6);
 		}
 		color = colorsave;
 		i = 0;
-		k = k + 0.25;
+		k = k + w->angle / w->m->rx;
 	}
 }
 
 void		south_west(t_struct *w, int mid, unsigned long color)
 {
-	int i;
-	float k;
-	unsigned long colorsave;
+	int				i;
+	float			k;
+	unsigned long	colorsave;
 
 	colorsave = color;
 	k = 0;
@@ -126,14 +135,17 @@ void		south_west(t_struct *w, int mid, unsigned long color)
 		while (i <= w->radius)
 		{
 			if (my_mlx_pixel_put(w, w->centx - cos((mid + k) * radiant) * i, w->centy + sin((mid + k) * radiant) * i, color))
+			{
+				make_three_d(w->m->rx - (k * w->m->rx / w->angle), i, w);
 				break ;
+			}
 			i++;
 			if (i % 4 == 0)
 				color = color + 1 * pow(16, 6);
 		}
 		color = colorsave;
 		i = 0;
-		k = k + 0.25;
+		k = k + w->angle / w->m->rx;
 	}
 }
 
@@ -257,6 +269,8 @@ int		turn(int keyboard, t_struct *w)
 	}
 	w->del_x = w->centx;
 	w->del_y = w->centy;
-	mlx_put_image_to_window(w->mlx, w->win, w->img, 0, 0);
+	mlx_put_image_to_window(w->mlx, w->win, w->img, 0, 0);	
+	mlx_put_image_to_window(w->mlx2, w->win2, w->img2, 0, 0);
+    
 	return (keyboard);
 }

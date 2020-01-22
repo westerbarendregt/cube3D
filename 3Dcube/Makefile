@@ -6,13 +6,13 @@
 #    By: wbarendr <wbarendr@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/01/08 14:53:04 by wbarendr       #+#    #+#                 #
-#    Updated: 2020/01/21 21:22:41 by wbarendr      ########   odam.nl          #
+#    Updated: 2020/01/22 14:18:57 by wbarendr      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS =	main_test_valic check_if_valid dcube utils put_map_to_window \
 		free_functions get_data_input get_data_strings get_data_integers \
-		make_flashlight pov_walker delete_ray
+		make_flashlight pov_walker delete_ray three_d
 
 CFILES  = $(SRCS:%=%.c)
 

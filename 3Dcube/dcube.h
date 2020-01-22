@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/12/20 19:53:48 by wbarendr       #+#    #+#                */
-/*   Updated: 2020/01/21 22:25:44 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/01/22 15:18:11 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ typedef struct		s_struct
 	void			*img;
 	void			*win;
 	char			*addr;
+	void			*mlx2;
+	void			*img2;
+	void			*win2;
+	char			*addr2;	
 	int				bits_per_pixel;
 	int				line_length;
 	int				endian;
@@ -105,5 +109,9 @@ void				name(t_struct *w, t_map *f);
 void    			center_point(t_struct *w);
 int					my_mlx_pixel_put(t_struct *data, int x, int y, int color);
 void				del_light(t_struct *w, int mid, unsigned long color);
+
+/* three D */
+void				make_three_d(int x, int distance, t_struct *w);
+void				del_make_three_d(int x, int distance, t_struct *w);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/16 10:18:39 by wbarendr       #+#    #+#                */
-/*   Updated: 2020/01/21 22:41:19 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/01/22 16:27:30 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,11 +182,11 @@ void	put_map_to_window(t_map *f)
 {
     t_struct    w;
 	
-	w.color = 0xB9A37333;
+	w.color = 0xB9A39393;
 	w.end = 0;
-	w.m = f;
+	w.m = f; 
 	w.radius = 256;
-	w.angle = 50;
+	w.angle = 60;
 	w.step = 5;
 	w.black = 0x00000000;
  	f->columns = f->rx / f->columns;
@@ -200,6 +200,10 @@ void	put_map_to_window(t_map *f)
 	w.img = mlx_new_image(w.mlx, f->rx, f->ry);
 	w.addr = mlx_get_data_addr(w.img, &w.bits_per_pixel, &w.line_length, &w.endian);
 	w.win = mlx_new_window(w.mlx, f->rx, f->ry, "Hello Wes");
+	w.mlx2 = mlx_init();
+	w.img2 = mlx_new_image(w.mlx2, f->rx, f->ry);
+	w.addr2 = mlx_get_data_addr(w.img2, &w.bits_per_pixel, &w.line_length, &w.endian);
+	w.win2 = mlx_new_window(w.mlx2, f->rx, f->ry, "Hello Wes 3D");
 	make_map(&w, f);
     mlx_put_image_to_window(w.mlx, w.win, w.img, 0, 0);
 	center_point(&w);
