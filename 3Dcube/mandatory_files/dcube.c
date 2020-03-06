@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/12/18 12:18:51 by wbarendr       #+#    #+#                */
-/*   Updated: 2020/03/03 11:23:29 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/03/06 17:07:18 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ char	*check_valid(t_map *f)
 
 	f->rows = 0;
 	i = ft_strlen(f->str) - 1;
+	if (f->str[i] == '\n')
+		i--;
 	while (f->str[i] != '\n' && i != 0)
 	{
 		if (!(f->str[i] == '1' || f->str[i] == ' '))
