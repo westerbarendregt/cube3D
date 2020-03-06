@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/21 19:28:35 by wbarendr       #+#    #+#                */
-/*   Updated: 2020/03/03 11:30:53 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/03/05 19:32:37 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void		light(t_struct *w, float mid)
 
 int			turn(t_struct *w)
 {
+	if (w->counter == 10000)
+		w->counter = 0;
 	w->counter++;
 	w->mid = w->mid + w->turn;
 	if (w->mid < 0)

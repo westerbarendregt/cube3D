@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/17 14:45:43 by wbarendr       #+#    #+#                */
-/*   Updated: 2020/03/03 11:14:46 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/03/06 10:32:26 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int			init_textures2(t_struct *w)
 	}
 	w->t2->addr_so = mlx_get_data_addr(w->t2->img_so,
 	&w->t2->bits_per_pixel_so, &w->t2->ll_so, &w->t2->endian_so);
+	w->counter = 0;
 	w->turn = 0;
 	w->move1 = 0;
 	w->move2 = 0;
@@ -102,8 +103,6 @@ void		init_data(t_struct *w, t_map *f)
 	if (f->ry < 50)
 		f->ry = 50;
 	w->len_mid = 1 / (tan((1.0 / 6) * PI));
-	if (f->ry % 2 == 0 && f->ry != f->num)
-		f->ry++;
 	if (f->ry == f->num)
 		f->ry -= 3;
 	f->columns = f->rx / f->columns;
@@ -115,4 +114,5 @@ void		init_data(t_struct *w, t_map *f)
 	f->rows_s = f->rows / 3;
 	f->columns_s = f->columns / 3;
 	w->wl->eq = f->ry / 2;
+	f->step = 1.0 / 1000;
 }

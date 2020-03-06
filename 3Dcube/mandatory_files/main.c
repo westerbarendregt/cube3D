@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/12/21 16:57:05 by wbarendr       #+#    #+#                */
-/*   Updated: 2020/03/03 11:30:31 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/03/06 14:48:46 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		ft_strcmp(char *arg, char *save, t_map *f)
 	int i;
 
 	i = 0;
-	while (save[i])
+	while (arg[i])
 	{
 		if (arg[i] != save[i])
 		{

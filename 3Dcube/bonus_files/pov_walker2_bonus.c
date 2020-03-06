@@ -6,7 +6,7 @@
 /*   By: wbarendr <wbarendr@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/21 19:28:35 by wbarendr       #+#    #+#                */
-/*   Updated: 2020/03/02 16:29:13 by wbarendr      ########   odam.nl         */
+/*   Updated: 2020/03/06 10:44:06 by wbarendr      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int			turn(t_struct *w)
 	make_map_s2(w, w->m);
 	if (w->counter % 2 == 0)
 		mlx_put_image_to_window(w->mlx2, w->win2, w->img1, 0, 0);
-	else 
+	else
 		mlx_put_image_to_window(w->mlx2, w->win2, w->img2, 0, 0);
 	return (1);
 }
