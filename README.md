@@ -8,8 +8,10 @@ Instead of pasting layers on top of each other.
 
 Take a look at: https://github.com/wbarendr/cube3D/blob/master/3Dcube/mandatory_files/spritehit_x.c to see how I did some of this. 
 
-To play the game:
+To play the game go to srcs:
 
 RUN: Make bonus 
 
 RUN: ./cub3D file.cub
+
+walk with: [wasd] && spin with arrow keys
